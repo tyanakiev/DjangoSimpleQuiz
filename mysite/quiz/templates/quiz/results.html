@@ -1,0 +1,45 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Results{% endblock %}
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Results!</h1>
+</div>
+{% for question in question %}
+    <div class="row justify-content-md-center">
+        <li class="card" style="width: 30rem;">
+
+
+
+              <div class="card-header">
+                  <h4>{{ question.question_text }}</h4>
+              </div>
+              <ul class="list-group list-group-flush">
+                  {% for choice in question.choice_set.all %}
+                    {% if choice.right_choice == True %}
+                  <li class="list-group-item bg-success"><h6>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</h6></li>
+                    {% else %}
+                  <li class="list-group-item bg-danger"><h6>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</h6></li>
+                    {% endif %}
+                  {% endfor %}
+
+              </ul>
+
+
+
+
+            <!--<div class="card-body">-->
+                <!--<h3>{{ question.question_text }}</h3>-->
+                <!--<div class="group-list">-->
+                <!--{% for choice in question.choice_set.all %}-->
+                    <!--{% if choice.right_choice == True %}-->
+                        <!--<div class="bg-success">{{ choice.choice_text }} &#45;&#45; {{ choice.votes }} vote{{ choice.votes|pluralize }}</div>-->
+                    <!--{% else %}-->
+                        <!--<div class="bg-danger">{{ choice.choice_text }} &#45;&#45; {{ choice.votes }} vote{{ choice.votes|pluralize }}</div>-->
+                    <!--{% endif %}-->
+                <!--{% endfor %}-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+    {% endfor %}
+    {% endblock %}

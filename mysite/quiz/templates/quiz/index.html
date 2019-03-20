@@ -1,0 +1,37 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+      <h1 class="display-4">Welcome to my Python and Django presentation quiz!</h1>
+    </div>
+    {% if latest_question_list %}
+            <form action="{% url 'quiz:vote' %}" method="post">
+                {% for question in latest_question_list %}
+                <div class="row justify-content-md-center">
+                    <div class="card" style="width: 30rem;">
+                        <div class="card-body">
+                            <div class="funkyradio">
+                                <h1>{{ question.question_text }}</h1>
+
+                                    {% csrf_token %}
+                                    {% for choice in question.choice_set.all %}
+                                        <div class="funkyradio-primary">
+                                            <input type="radio" name="{{ question.id }}" id="choice{{ question.id }}_{{ forloop.counter }}" value="{{ choice.id }}" required>
+                                            <label class="list-group-item" for="choice{{ question.id }}_{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                    <!--<li><a href="{% url 'quiz:detail' question.id %}">{{ question.question_text }}</a></li>-->
+                {% endfor %}
+                <div class="row justify-content-md-center">
+                    <input type="submit" class="btn btn-primary" value="Answer">
+                </div>
+                </form>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}
+
